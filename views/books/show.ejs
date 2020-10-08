@@ -1,0 +1,115 @@
+<%- include ("../partials/header") %>
+<div class="container" style="padding-top: 25px;">
+	<div class="row">
+		<div class="col-2">
+			<p>
+				<img src="<%= bookData["volumeInfo"]["imageLinks"]["thumbnail"] %>" alt="Book Cover">
+			</p>
+			<% if(currentUser) { %>
+			 <div class="btn-group">
+				  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" 
+						  aria-haspopup="true" aria-expanded="false">
+					Choose your Shelf
+				  </button>
+					  <div class="dropdown-menu">
+						<form action="/users/<%= currentUser._id %>/toread/<%= bookData.id %>"
+							  method="POST" class="dropdown-item" >
+							 <button type="submit" class="btn btn-light">
+								 Want to read
+							</button>
+						</form>
+						<form action="/users/<%= currentUser._id %>/reading/<%= bookData.id %>"
+							  method="POST" class="dropdown-item" >
+							 <button type="submit" class="btn btn-light">
+								 Currently Reading
+							</button>
+						</form>
+						<form action="/users/<%= currentUser._id %>/read/<%= bookData.id %>"
+							  method="POST" class="dropdown-item" >
+							 <button type="submit" class="btn btn-light">
+								 Read
+							</button>
+						</form>					  
+				  </div>					 
+			</div>	
+			<% } else{ %> 
+				<a href="/login" class="btn btn-success">
+					Add to your Shelf
+				</a>
+			<% } %>			
+		</div>
+		<div class="col-10">
+			<div class="card">
+				<div class="card-body">
+					<div class="card-title">
+						<h3>
+							<%= bookData.volumeInfo.title %>
+						</h3>
+						<h6>
+							by <%= bookData.volumeInfo.authors[0] %>
+						</h6>
+					</div>
+					<div class="card-text">
+						<p>
+							<%= bookData.volumeInfo.subtitle %>
+						</p>
+						<p>
+							<%- bookData.volumeInfo.description %>
+						</p>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container" style="padding-top: 25px;">
+	<div class="row">
+		<div class="col-2">
+			
+		</div>
+		<div class="col-10">
+		<div class="card bg-light">
+			<div class="card-body">
+				<div class="text-right">
+					<a href="/books/<%= bookData.id%>/review/new" class="btn btn-success">Add a Review</a>
+				</div>
+				<hr>
+				<% reviews.forEach(function(review){ %>
+					<div class="row">
+						<div class="col-md-12">
+							<p>
+								<a href="/users/<%= review.author.id %>">
+									<strong><%= review.author.username %></strong>
+								</a>
+							</p>
+							<p>
+								<div>
+									<% for(var i = 0; i< review.rating ;i++){ %>
+										<i class="fa fa-star" aria-hidden="true"></i>
+									<% } %>
+								</div>
+							</p>
+							<p>
+								<%= review.body.substring(0,200) %>...
+							</p>
+							<p class="text-right">
+								<%= review.created.toDateString() %>
+							</p>
+							<p>
+								<a href="/books/<%= bookData.id%>/review/<%= review._id %>" class="btn btn-dark btn-sm">
+									Read full review
+								</a>
+							</p>							
+						</div>	
+					</div>
+					<hr>
+				<% }) %>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+<%- include ("../partials/footer") %>
