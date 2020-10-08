@@ -1,0 +1,60 @@
+<%- include("../partials/header") %>
+<div class="container" style="padding-top: 25px;">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>
+				<a href="/users/<%= review.author.id %>"><%= review.author.username %></a>'s Review > <%= bookData.volumeInfo.title %>
+			</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-2">
+			<p>
+				<img src="<%= bookData["volumeInfo"]["imageLinks"]["thumbnail"] %>" alt="Book Cover">
+			</p>
+		</div>
+		<div class="col-10">
+			<div class="card bg-light">
+				<div class="card-body">
+					<div class="card-title">
+						<h6>
+							<strong><%= bookData.volumeInfo.title %></strong><br>
+							by <%= bookData.volumeInfo.authors[0] %>
+						</h6>
+						<div class="row">
+							<div class="col-10">
+								<div>
+									<% for(var i = 0; i< review.rating ;i++){ %>
+										<i class="fa fa-star" aria-hidden="true"></i>
+									<% } %>
+								</div>
+							</div>
+							<div class="col-2 text-right">
+								<%= review.created.toDateString() %>
+							</div>
+						</div>
+					</div>
+					<div class="card-text">
+						<p>
+							<%= review.body %>
+						</p>
+					</div>
+					<% if(currentUser && review.author.id.equals(currentUser._id)) { %>
+					<div class="row">
+						<div class="col-1">
+							<a href="/books/<%= bookData.id %>/review/<%= review._id %>/edit"
+							   class="btn btn-sm btn-success">Edit</a>
+						</div>
+						<div class="col-1">
+							<form action="/books/<%= bookData.id %>/review/<%= review._id %>?_method=DELETE" method="POST">
+								<button type="submit" class="btn btn-sm btn-success">Delete</button>
+							</form>
+						</div>
+					</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- include("../partials/footer") %>
