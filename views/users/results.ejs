@@ -1,0 +1,42 @@
+<%- include ("partials/header")%>
+<div class="container" style="padding-top: 25px;">
+	<div class="jumbotron">
+		<h2>
+			Search results for: <%= searchName %>
+		</h2>		
+	</div>
+	<% resultList.forEach(function(result){ %>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12 mt-3">
+					<div class="card bg-light">
+						<div class="card-horizontal">
+							<% if(result["volumeInfo"]["imageLinks"] !== undefined) {%>
+							<div class="img-square-wrapper">
+								<img src="<%=result["volumeInfo"]["imageLinks"]["thumbnail"]%>" alt="book cover">
+							</div>
+							<%}%>
+							<div class="card-body">
+								<h4 class="card-title"><%=result["volumeInfo"]["title"]%></h4>
+								<% if(result["volumeInfo"]["authors"] !== undefined) {%>
+								<h6>By <%= result["volumeInfo"]["authors"][0]%></h6>
+								<%}%>
+								<% if(result["volumeInfo"]["description"] !== undefined) {%>
+									<p class="card-text"><%=result["volumeInfo"]["description"].substring(0,150) %>...</p>
+								<%}%>
+								<p>
+									<a href="/books/<%= result.id %>" class="btn btn-primary btn-sm">
+										Read more
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% }); %>
+	<a href="/">Search Again!!</a>
+</div>
+
+<%- include ("partials/footer")%>
