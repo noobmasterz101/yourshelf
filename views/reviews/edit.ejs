@@ -1,0 +1,27 @@
+<%- include ("../partials/header")%>
+<div class="container" style="padding-top: 25px;">	
+	<div class="row">
+		<h3 class="col-12" style="text-align: center">
+			Edit your review for <%= bookData.volumeInfo.title %>
+		</h3>
+		<div style="width: 30%; margin: 25px auto;">
+			<form action="/books/<%= bookData.id %>/review/<%= review._id %>?_method=PUT" method="POST">
+				<div class="form-group">
+					<input type="number" class="form-control" name="review[rating]" value="<%= review.rating %>" 
+						   min="0" step="0.25" max="5">	
+				</div>
+				<div class="form-group">	
+					<textarea class="form-control" name="review[body]"><%= review.body %></textarea>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-lg btn-primary btn-block">
+						Submit!
+					</button>
+				</div>
+			</form>
+			<a href="/" class="btn btn-outline-info">Go back?</a>
+		</div>
+	</div>
+</div>
+
+<%- include ("../partials/footer")%>
